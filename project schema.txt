@@ -15,7 +15,6 @@ registration:
 - userid (only for api)
 
 
-
 Event Activity:
 - image (image url for api)
 - title
@@ -30,3 +29,4 @@ Event Activity:
 - coordinator name and details
 - availability of snacks or lunch
 - registration fees
+- webinar or seminar or contest or meeting or FDP or talk
