@@ -1,3 +1,4 @@
+import 'package:aicte_up2date/Activities/ProfileActivity.dart';
 import 'package:flutter/material.dart';
 import 'package:aicte_up2date/Activities/LoginActivity.dart';
 import 'package:aicte_up2date/Activities/RegistrationActivity.dart';
