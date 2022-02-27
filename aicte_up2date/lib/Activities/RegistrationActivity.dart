@@ -12,6 +12,22 @@ class RegistrationActivity extends StatefulWidget{
   State<RegistrationActivity> createState() => _RegistrationActivity();
 }
 class _RegistrationActivity extends State<RegistrationActivity>{
+  var dateText = _controller();
+  var nameText = _controller();
+  var ageText = _controller();
+  var mailIdText = _controller();
+  var dobText = _controller();
+  var genderText = _controller();
+  var collegeText = _controller();
+  var deptText = _controller();
+  var cityText = _controller();
+  var stateText = _controller();
+  var passText = _controller();
+  var cPassText = _controller();
+  var rollNoText = _controller();
+  var phNoText = _controller();
+
+  DateTime curDate = DateTime.now();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,11 +35,12 @@ class _RegistrationActivity extends State<RegistrationActivity>{
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
+            backgroundColor: Colors.green,
             pinned: true,
             floating: true,
             expandedHeight: 200,
             flexibleSpace: FlexibleSpaceBar(
-              background: Image.asset('images/bg.jpg',fit: BoxFit.fill,),
+              background: Image.asset('images/bg.jpg',fit: BoxFit.cover,),
               title: AnimatedTextKit(
                 animatedTexts: [
                   TypewriterAnimatedText(
@@ -42,7 +59,11 @@ class _RegistrationActivity extends State<RegistrationActivity>{
             ),
           ),
           SliverFillRemaining(
+            hasScrollBody: true,
             child: Container(
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0))
+              ),
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -55,7 +76,7 @@ class _RegistrationActivity extends State<RegistrationActivity>{
                       padding: EdgeInsets.only(left: GlobalVariable.TEXT_FIELD_LEFT_PADDING,top: GlobalVariable.TEXT_FIELD_TOP_PADDING, bottom: GlobalVariable.TEXT_FIELD_BOTTOM_PADDING, right: GlobalVariable.TEXT_FIELD_RIGHT_PADDING),
                       margin: EdgeInsets.only(right: GlobalVariable.TEXT_FIELD_RIGHT_MARGIN, left: GlobalVariable.TEXT_FIELD_LEFT_MARGIN),
                       decoration: _Neumorphism(),
-                      child: _TextField_Decoration(TextEditingController(), 'Name'),
+                      child: _TextField_Decoration(nameText, 'Name'),
                     ),
                     SizedBox(height: GlobalVariable.SIZED_BOX_HEIGHT,),
                     Container(
@@ -64,7 +85,7 @@ class _RegistrationActivity extends State<RegistrationActivity>{
                       padding: EdgeInsets.only(left: GlobalVariable.TEXT_FIELD_LEFT_PADDING,top: GlobalVariable.TEXT_FIELD_TOP_PADDING, bottom: GlobalVariable.TEXT_FIELD_BOTTOM_PADDING, right: GlobalVariable.TEXT_FIELD_RIGHT_PADDING),
                       margin: EdgeInsets.only(right: GlobalVariable.TEXT_FIELD_RIGHT_MARGIN, left: GlobalVariable.TEXT_FIELD_LEFT_MARGIN),
                       decoration: _Neumorphism(),
-                      child: _TextField_Decoration(TextEditingController(), 'Mail Id'),
+                      child: _TextField_Decoration(mailIdText, 'Mail Id'),
                     ),
                     SizedBox(height: GlobalVariable.SIZED_BOX_HEIGHT,),
                     Container(
@@ -76,11 +97,11 @@ class _RegistrationActivity extends State<RegistrationActivity>{
                         children: <Widget>[
                           Expanded(
                               flex: 6,
-                              child: _TextField_Decoration(TextEditingController(), 'Date Of Birth')
+                              child: _TextField_Decoration(dateText, 'Date Of Birth')
                           ),
-                          const Expanded(
+                          Expanded(
                             flex: -1,
-                            child: Icon(Icons.date_range),
+                            child: IconButton(icon: const Icon(Icons.date_range), onPressed: () => _selectDate(context)),
                           )
                         ],
                       ),
@@ -91,88 +112,90 @@ class _RegistrationActivity extends State<RegistrationActivity>{
                       decoration: _Neumorphism(),
                       padding: EdgeInsets.only(left: GlobalVariable.TEXT_FIELD_LEFT_PADDING,top: GlobalVariable.TEXT_FIELD_TOP_PADDING, bottom: GlobalVariable.TEXT_FIELD_BOTTOM_PADDING, right: GlobalVariable.TEXT_FIELD_RIGHT_PADDING),
                       margin: EdgeInsets.only(right: GlobalVariable.TEXT_FIELD_RIGHT_MARGIN, left: GlobalVariable.TEXT_FIELD_LEFT_MARGIN),
-                      child: _TextField_Decoration(TextEditingController(), 'Age'),
+                      child: _TextField_Decoration(ageText, 'Age'),
                     ),
                     SizedBox(height: GlobalVariable.SIZED_BOX_HEIGHT,),
                     Container(
                       decoration: _Neumorphism(),
                       padding: EdgeInsets.only(left: GlobalVariable.TEXT_FIELD_LEFT_PADDING,top: GlobalVariable.TEXT_FIELD_TOP_PADDING, bottom: GlobalVariable.TEXT_FIELD_BOTTOM_PADDING, right: GlobalVariable.TEXT_FIELD_RIGHT_PADDING),
                       margin: EdgeInsets.only(right: GlobalVariable.TEXT_FIELD_RIGHT_MARGIN, left: GlobalVariable.TEXT_FIELD_LEFT_MARGIN),
-                      child: _TextField_Decoration(TextEditingController(), 'Gender'),
+                      child: _TextField_Decoration(genderText, 'Gender'),
                     ),
                     SizedBox(height: GlobalVariable.SIZED_BOX_HEIGHT,),
                     Container(
                       decoration: _Neumorphism(),
                       padding: EdgeInsets.only(left: GlobalVariable.TEXT_FIELD_LEFT_PADDING,top: GlobalVariable.TEXT_FIELD_TOP_PADDING, bottom: GlobalVariable.TEXT_FIELD_BOTTOM_PADDING, right: GlobalVariable.TEXT_FIELD_RIGHT_PADDING),
                       margin: EdgeInsets.only(right: GlobalVariable.TEXT_FIELD_RIGHT_MARGIN, left: GlobalVariable.TEXT_FIELD_LEFT_MARGIN),
-                      child: _TextField_Decoration(TextEditingController(), 'College Name'),
+                      child: _TextField_Decoration(collegeText, 'College Name'),
                     ),
                     SizedBox(height: GlobalVariable.SIZED_BOX_HEIGHT,),
                     Container(
                       decoration: _Neumorphism(),
                       padding: EdgeInsets.only(left: GlobalVariable.TEXT_FIELD_LEFT_PADDING,top: GlobalVariable.TEXT_FIELD_TOP_PADDING, bottom: GlobalVariable.TEXT_FIELD_BOTTOM_PADDING, right: GlobalVariable.TEXT_FIELD_RIGHT_PADDING),
                       margin: EdgeInsets.only(right: GlobalVariable.TEXT_FIELD_RIGHT_MARGIN, left: GlobalVariable.TEXT_FIELD_LEFT_MARGIN),
-                      child: _TextField_Decoration(TextEditingController(), 'Department'),
+                      child: _TextField_Decoration(deptText, 'Department'),
                     ),
                     SizedBox(height: GlobalVariable.SIZED_BOX_HEIGHT,),
                     Container(
                       decoration: _Neumorphism(),
                       padding: EdgeInsets.only(left: GlobalVariable.TEXT_FIELD_LEFT_PADDING,top: GlobalVariable.TEXT_FIELD_TOP_PADDING, bottom: GlobalVariable.TEXT_FIELD_BOTTOM_PADDING, right: GlobalVariable.TEXT_FIELD_RIGHT_PADDING),
                       margin: EdgeInsets.only(right: GlobalVariable.TEXT_FIELD_RIGHT_MARGIN, left: GlobalVariable.TEXT_FIELD_LEFT_MARGIN),
-                      child: _TextField_Decoration(TextEditingController(), 'Roll Number'),
+                      child: _TextField_Decoration(rollNoText, 'Roll Number'),
                     ),
                     SizedBox(height: GlobalVariable.SIZED_BOX_HEIGHT,),
                     Container(
                       decoration: _Neumorphism(),
                       padding: EdgeInsets.only(left: GlobalVariable.TEXT_FIELD_LEFT_PADDING,top: GlobalVariable.TEXT_FIELD_TOP_PADDING, bottom: GlobalVariable.TEXT_FIELD_BOTTOM_PADDING, right: GlobalVariable.TEXT_FIELD_RIGHT_PADDING),
                       margin: EdgeInsets.only(right: GlobalVariable.TEXT_FIELD_RIGHT_MARGIN, left: GlobalVariable.TEXT_FIELD_LEFT_MARGIN),
-                      child: _TextField_Decoration(TextEditingController(), 'Phone Number'),
+                      child: _TextField_Decoration(phNoText, 'Phone Number'),
                     ),
                     SizedBox(height: GlobalVariable.SIZED_BOX_HEIGHT,),
                     Container(
                       decoration: _Neumorphism(),
                       padding: EdgeInsets.only(left: GlobalVariable.TEXT_FIELD_LEFT_PADDING,top: GlobalVariable.TEXT_FIELD_TOP_PADDING, bottom: GlobalVariable.TEXT_FIELD_BOTTOM_PADDING, right: GlobalVariable.TEXT_FIELD_RIGHT_PADDING),
                       margin: EdgeInsets.only(right: GlobalVariable.TEXT_FIELD_RIGHT_MARGIN, left: GlobalVariable.TEXT_FIELD_LEFT_MARGIN),
-                      child: _TextField_Decoration(TextEditingController(), 'City'),
+                      child: _TextField_Decoration(cityText, 'City'),
                     ),
                     SizedBox(height: GlobalVariable.SIZED_BOX_HEIGHT,),
                     Container(
                       decoration: _Neumorphism(),
                       padding: EdgeInsets.only(left: GlobalVariable.TEXT_FIELD_LEFT_PADDING,top: GlobalVariable.TEXT_FIELD_TOP_PADDING, bottom: GlobalVariable.TEXT_FIELD_BOTTOM_PADDING, right: GlobalVariable.TEXT_FIELD_RIGHT_PADDING),
                       margin: EdgeInsets.only(right: GlobalVariable.TEXT_FIELD_RIGHT_MARGIN, left: GlobalVariable.TEXT_FIELD_LEFT_MARGIN),
-                      child: _TextField_Decoration(TextEditingController(), 'State'),
+                      child: _TextField_Decoration(stateText, 'State'),
                     ),
                     SizedBox(height: GlobalVariable.SIZED_BOX_HEIGHT,),
                     Container(
                       decoration: _Neumorphism(),
                       padding: EdgeInsets.only(left: GlobalVariable.TEXT_FIELD_LEFT_PADDING,top: GlobalVariable.TEXT_FIELD_TOP_PADDING, bottom: GlobalVariable.TEXT_FIELD_BOTTOM_PADDING, right: GlobalVariable.TEXT_FIELD_RIGHT_PADDING),
                       margin: EdgeInsets.only(right: GlobalVariable.TEXT_FIELD_RIGHT_MARGIN, left: GlobalVariable.TEXT_FIELD_LEFT_MARGIN),
-                      child: _TextField_Decoration(TextEditingController(), 'New Password'),
+                      child: _TextField_Decoration(passText, 'New Password'),
                     ),
                     SizedBox(height: GlobalVariable.SIZED_BOX_HEIGHT,),
                     Container(
                       decoration: _Neumorphism(),
                       padding: EdgeInsets.only(left: GlobalVariable.TEXT_FIELD_LEFT_PADDING,top: GlobalVariable.TEXT_FIELD_TOP_PADDING, bottom: GlobalVariable.TEXT_FIELD_BOTTOM_PADDING, right: GlobalVariable.TEXT_FIELD_RIGHT_PADDING),
                       margin: EdgeInsets.only(right: GlobalVariable.TEXT_FIELD_RIGHT_MARGIN, left: GlobalVariable.TEXT_FIELD_LEFT_MARGIN),
-                      child: _TextField_Decoration(TextEditingController(), 'Confirm Password'),
+                      child: _TextField_Decoration(cPassText, 'Confirm Password'),
                     ),
                     SizedBox(height: GlobalVariable.SIZED_BOX_HEIGHT,),
-                    AnimatedButton(
-                      child: const Text(
-                        'Submit',
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
+                    Container(
+                      child: AnimatedButton(
+                        child: const Text(
+                          'Submit',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
+                        height: 60,
+                        width: 150,
+                        color: Colors.green,
+                        onPressed: () => _RegistrationProcess(),
+                        enabled: true,
+                        // duration: 1000,
+                        shadowDegree: ShadowDegree.light,
                       ),
-                      height: 60,
-                      width: 150,
-                      color: Colors.green,
-                      onPressed: () {},
-                      enabled: true,
-                      // duration: 1000,
-                      shadowDegree: ShadowDegree.light,
                     ),
                     SizedBox(height: GlobalVariable.SIZED_BOX_HEIGHT,)
                   ],
@@ -184,6 +207,11 @@ class _RegistrationActivity extends State<RegistrationActivity>{
       ),
     );
   }
+
+  static _RegistrationProcess() async{
+
+  }
+
   static BoxDecoration _BoxShadow(){
     return BoxDecoration(
         color: Colors.grey[200],
@@ -223,6 +251,21 @@ class _RegistrationActivity extends State<RegistrationActivity>{
     );
   }
 
+  Future<void> _selectDate(BuildContext context) async{
+    final DateTime? picked = await showDatePicker(
+      firstDate: DateTime(2001),
+      lastDate: DateTime(2200),
+      context: context,
+      initialDate: curDate,
+    );
+    if(picked!=null){
+      setState(() {
+        curDate = picked;
+        dateText.text=('${curDate.day} / ${curDate.month} / ${curDate.year}');
+      });
+    }
+  }
+
   static TextField _TextField_Decoration(TextEditingController controller, var label){
     return TextField(
       controller: controller,
@@ -231,6 +274,10 @@ class _RegistrationActivity extends State<RegistrationActivity>{
           border: InputBorder.none
       ),
     );
+  }
+
+  static _controller(){
+    return TextEditingController();
   }
 
 }

@@ -52,6 +52,10 @@ dependencies:
   animated_button: ^0.2.0
   #link : https://pub.dev/packages/animated_button
 
+  #argon button
+  argon_buttons_flutter: ^1.1.0
+  #link : https://pub.dev/packages/argon_buttons_flutter
+
 
 dev_dependencies:
   flutter_test:
