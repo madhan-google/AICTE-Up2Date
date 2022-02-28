@@ -2,8 +2,8 @@ import mongoose from "mongoose";
 const userSchema = mongoose.Schema({
   name: String,
   dob: String,
-  phno: { type: Number },
-  age: { type: Number },
+  phno: String,
+  age: String,
   gender: String,
   college: String,
   dept: String,
