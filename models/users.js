@@ -4,6 +4,7 @@ const userSchema = mongoose.Schema({
   dob: String,
   phno: { type: Number },
   age: { type: Number },
+  gender: String,
   college: String,
   usertype: String,
   rollno: String,
