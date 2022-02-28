@@ -10,7 +10,6 @@ const userSchema = mongoose.Schema({
   mailid: String,
   city: String,
   state: String,
-  password: String,
   userid: String,
 });
 export default mongoose.model('users',userSchema);
