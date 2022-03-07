@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "118831603895",
+    "project_id": "aicte-up2date",
+    "storage_bucket": "aicte-up2date.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:118831603895:android:29c83079dba51ad2b6ed32",
+        "android_client_info": {
+          "package_name": "com.codekiller.aicte_up2date"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "118831603895-s4frl1dnm7lsk11uupoipfhhj49rjkra.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNunlWQ8_t75CsF2EUXx781tj4DIbOaTA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "118831603895-s4frl1dnm7lsk11uupoipfhhj49rjkra.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

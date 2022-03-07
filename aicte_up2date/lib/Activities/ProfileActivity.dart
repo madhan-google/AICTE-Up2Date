@@ -1,7 +1,7 @@
 import 'package:aicte_up2date/GlobalVariable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:http/http.dart' as http;
 class ProfileActivity extends StatefulWidget{
   @override
   State<ProfileActivity> createState() => _ProfileActivity();

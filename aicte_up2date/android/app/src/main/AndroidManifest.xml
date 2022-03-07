@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.codekiller.aicte_up2date">
+    package="com.codekiller.aicte_up2date"
+    >
    <application
         android:label="aicte_up2date"
         android:name="${applicationName}"
