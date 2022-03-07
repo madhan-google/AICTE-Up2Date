@@ -126,5 +126,39 @@ class EventAPIModel{
       this._coordinator_name,
       this._details,
       this._category);
-
+  EventAPIModel fromJson(Map<String, dynamic> json){
+    return EventAPIModel(
+        json['image'],
+        json['title'],
+        json['description'],
+        json['start_date'],
+        json['end_date'],
+        json['clg_name'],
+        json['location'],
+        json['venue'],
+        json['time'],
+        json['duration'],
+        json['google_form_link'],
+        json['coordinator_name'],
+        json['details'],
+        json['category']);
+  }
+  Map<String, dynamic> toJson(EventAPIModel json){
+    return {
+      'image': json.imageUrl,
+      'title': json.title,
+      'description': json.description,
+      'start_date': json.start_date,
+      'end_date': json.end_date,
+      'clg_name': json.clg_name,
+      'location': json.location,
+      'venue': json.venue,
+      'time': json.time,
+      'duration': json.duration,
+      'google_form_link': json.google_form_link,
+      'coordinator_name': json.coordinator_name,
+      'details': json.details,
+      'category': json.category,
+    };
+  }
 }
