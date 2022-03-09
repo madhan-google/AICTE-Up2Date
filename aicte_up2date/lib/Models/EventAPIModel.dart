@@ -1,5 +1,12 @@
 class EventAPIModel{
-  var _imageUrl;
+  var _id;
+
+  get id => _id;
+
+  set id(id) {
+    _id = id;
+  }
+   var _imageUrl;
 
   get imageUrl => _imageUrl;
 
@@ -103,7 +110,7 @@ class EventAPIModel{
     _details = details;
   }
 
-  var _category;
+  String _category;
 
   get category => _category;
 
@@ -111,7 +118,18 @@ class EventAPIModel{
     _category = category;
   }
 
+  List<dynamic> _registers;
+
+  List<dynamic> get registers => _registers;
+
+  set registers(List<dynamic> registers) {
+    _registers = registers;
+  }
+
+
+
   EventAPIModel(
+      // this._id,
       this._imageUrl,
       this._title,
       this._description,
@@ -125,10 +143,12 @@ class EventAPIModel{
       this._google_form_link,
       this._coordinator_name,
       this._details,
-      this._category);
-  EventAPIModel fromJson(Map<String, dynamic> json){
+      this._category,
+      this._registers);
+  factory EventAPIModel.fromJson(Map<String, dynamic> json){
     return EventAPIModel(
-        json['image'],
+        // json['_id'],
+        json['image_url'],
         json['title'],
         json['description'],
         json['start_date'],
@@ -141,11 +161,14 @@ class EventAPIModel{
         json['google_form_link'],
         json['coordinator_name'],
         json['details'],
-        json['category']);
+        json['category'],
+        json['registers']
+    );
   }
   Map<String, dynamic> toJson(EventAPIModel json){
     return {
-      'image': json.imageUrl,
+      // '_id':json._id,
+      'image_url': json.imageUrl,
       'title': json.title,
       'description': json.description,
       'start_date': json.start_date,
@@ -159,6 +182,7 @@ class EventAPIModel{
       'coordinator_name': json.coordinator_name,
       'details': json.details,
       'category': json.category,
+      'registers':json.registers
     };
   }
 }
