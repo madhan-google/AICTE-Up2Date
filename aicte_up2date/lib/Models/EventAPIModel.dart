@@ -127,9 +127,8 @@ class EventAPIModel{
   }
 
 
-
   EventAPIModel(
-      // this._id,
+      this._id,
       this._imageUrl,
       this._title,
       this._description,
@@ -147,7 +146,7 @@ class EventAPIModel{
       this._registers);
   factory EventAPIModel.fromJson(Map<String, dynamic> json){
     return EventAPIModel(
-        // json['_id'],
+        json['_id'],
         json['image_url'],
         json['title'],
         json['description'],
@@ -167,7 +166,7 @@ class EventAPIModel{
   }
   Map<String, dynamic> toJson(EventAPIModel json){
     return {
-      // '_id':json._id,
+      '_id':json._id,
       'image_url': json.imageUrl,
       'title': json.title,
       'description': json.description,

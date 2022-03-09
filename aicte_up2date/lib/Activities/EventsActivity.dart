@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'package:aicte_up2date/GlobalVariable.dart';
 import 'package:aicte_up2date/Models/EventAPIModel.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+// import 'package:add_2_calendar/add_2_calendar.dart';
 import 'package:aicte_up2date/Models/EventModel.dart';
 import 'package:http/http.dart' as http;
 
@@ -12,24 +14,28 @@ class EventsActivity extends StatefulWidget{
 }
 class _EventsActivity extends State<EventsActivity>{
   // late EventAPIModel _eventAPIModel;
-  static List<EventAPIModel> list = [];
-  static getAPI() async{
+  List<EventAPIModel> list = [];
+  Future<List<EventAPIModel>> getAPI() async{
     var response = await http.get(Uri.parse('https://uptodatebackend.herokuapp.com/event/getevent'));
-    print(response.body);
+    // print(response.body);
     for(var x in jsonDecode(response.body)){
       list.add(EventAPIModel.fromJson(x));
     }
+    String iid = list[0].id;
+    print('cc $iid');
+    return list;
   }
   //
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    getAPI();
-  }
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   getAPI();
+  // }
   @override
   Widget build(BuildContext context) {
     // getAPI();
+    list.clear();
     return Scaffold(
       bottomNavigationBar: CurvedNavigationBar(
         height: 60,
@@ -49,127 +55,163 @@ class _EventsActivity extends State<EventsActivity>{
         title: const Text('Events'),
       ),
       body: Center(
-        child: ListView.builder(
-          shrinkWrap: true,
-            itemCount: list.length,
-            itemBuilder: (context, index){
-              // print(index);
-              int len = list[index].registers.length;
-              String strength = '+$len joined';
-              List<String> ddd = list[index].start_date.toString().split(' ');
-              print(list[index].imageUrl);
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Stack(
+        child: FutureBuilder<List<EventAPIModel>>(
+          future: getAPI(),
+          builder: (context, snapshot){
+            // EventAPIModel eventAPIModel = snapshot.data;
+            if(snapshot!=null){
+              return ListView.builder(
+                shrinkWrap: true,
+                itemCount: list.length,
+                itemBuilder: (context, index){
+                  // print(index);
+                  int len = snapshot.data![index].registers.length;
+                  String strength = '+$len joined';
+                  List<String> ddd = snapshot.data![index].start_date.toString().split('/');
+                  print(ddd);
+                  print(snapshot.data![index].imageUrl);
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Image.network(list[index].imageUrl,
-                        height: 250,
-                        width: double.infinity,
-                        fit: BoxFit.cover,
-                      ),
-                      Positioned(
-                          right: 10, top: 10,
-                          child: Container(
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  ddd[2],
-                                  style: const TextStyle(
-                                      fontSize: 27,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: 'Varela'
-                                  ),
-                                ),
-                                Text(
-                                  ddd[1].toUpperCase(),
-                                  style: const TextStyle(
-                                      fontSize: 27,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: 'Varela'
-                                  ),
-                                )
-                              ],
-                            ),
-                          )
-                      )
-                    ],
-                  ),
-                  SizedBox(height: 10,),
-                  Container(
-                    margin: EdgeInsets.only(left: 10),
-                    child: Text(
-                        list[index].title,
-                        style: const TextStyle(
-                          fontSize: 25,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          // fontFamily: 'Varela'
-                        )
-                    ),
-                  ),
-                  SizedBox(height: 5,),
-                  Container(
-                    margin: EdgeInsets.only(left: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        const Icon(
-                          Icons.location_pin,
-                        ),
-                        SizedBox(width: 10,),
-                        Text(
-                          list[index].location,
-                          style: TextStyle(
-                              fontSize: 18
+                      Stack(
+                        children: <Widget>[
+                          Image.network(snapshot.data![index].imageUrl,
+                            height: 250,
+                            width: double.infinity,
+                            fit: BoxFit.cover,
                           ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      SizedBox(width: 10,),
-                      // CircleAvatar(),
+                          Positioned(
+                              right: 10, top: 10,
+                              child: Container(
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      ddd[0],
+                                      style: const TextStyle(
+                                          fontSize: 27,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'Varela'
+                                      ),
+                                    ),
+                                    Text(
+                                      GlobalVariable.months[int.parse(ddd[1])],
+                                      style: const TextStyle(
+                                          fontSize: 27,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'Varela'
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              )
+                          )
+                        ],
+                      ),
+                      SizedBox(height: 10,),
                       Container(
-                        height: 30,
-                        width: 30,
-                        child: Image.asset('images/av2.png'),
-                        decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(20))
+                        margin: EdgeInsets.only(left: 10),
+                        child: Text(
+                            list[index].title,
+                            style: const TextStyle(
+                              fontSize: 25,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              // fontFamily: 'Varela'
+                            )
                         ),
                       ),
-                      const SizedBox(width: 10,),
-                      Text(strength),
-                      const Spacer(),
-                      ElevatedButton(
-                        onPressed: (){
-                          // registerToThisEvent();
-                        },
-                        child: const Text('Join'),
+                      SizedBox(height: 5,),
+                      Container(
+                        margin: EdgeInsets.only(left: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            const Icon(
+                              Icons.location_pin,
+                            ),
+                            SizedBox(width: 10,),
+                            Text(
+                              list[index].location,
+                              style: TextStyle(
+                                  fontSize: 18
+                              ),
+                            )
+                          ],
+                        ),
                       ),
-                      SizedBox(width: 10,)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          SizedBox(width: 10,),
+                          // CircleAvatar(),
+                          Container(
+                            height: 30,
+                            width: 30,
+                            child: Image.asset('images/av2.png'),
+                            decoration: const BoxDecoration(
+                                borderRadius: BorderRadius.all(Radius.circular(20))
+                            ),
+                          ),
+                          const SizedBox(width: 10,),
+                          Text(strength),
+                          const Spacer(),
+                          ElevatedButton(
+                            onPressed: (){
+                              registerToThisEvent();
+                            },
+                            child: const Text('Join'),
+                          ),
+                          SizedBox(width: 10,)
+                        ],
+                      ),
+                      SizedBox(height: 10,)
                     ],
-                  ),
-                  SizedBox(height: 10,)
-                ],
+                  );
+                },
+                // itemCount: list.length,
               );
-            },
-          // itemCount: list.length,
-        ),
+            }else{
+              return Center(child: Text('Loading..'),);
+            }
+          },
+        )
       ),
     );
   }
-  
+  registerToThisEvent() async{
+    // Add2Calendar.addEvent2Cal(buildEvent(
+    //   recurrence: Recurrence(
+    //     frequency: Frequency.weekly,
+    //     endDate: DateTime.now().add(Duration(days: 60)),
+    //   ),
+    // ));
+    print('event added');
+  }
+  // Event buildEvent({Recurrence? recurrence}) {
+  //   return Event(
+  //     title: 'Test eventeee',
+  //     description: 'example',
+  //     location: 'Flutter app',
+  //     startDate: DateTime.now(),
+  //     endDate: DateTime.now().add(Duration(minutes: 30)),
+  //     allDay: false,
+  //     iosParams: IOSParams(
+  //       reminder: Duration(minutes: 40),
+  //     ),
+  //     androidParams: AndroidParams(
+  //       emailInvites: ["test@example.com"],
+  //     ),
+  //     recurrence: recurrence,
+  //   );
+  // }
 }

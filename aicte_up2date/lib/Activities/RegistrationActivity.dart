@@ -293,7 +293,7 @@ class _RegistrationActivity extends State<RegistrationActivity>{
   // var phNoText = _controller();
   void _RegistrationProcess() async{
     print('response');
-
+    authenticateToFirebase();
     print(nameText.text);
     if(ok(dateText.text)&&ok(nameText.text)&&ok(ageText.text)&&ok(mailIdText.text)&&ok(select_date)&&ok(_gender)&&ok(collegeText.text)&&ok(deptText.text)
         &&ok(cityText.text)&&ok(stateText.text)&&ok(passText.text)&&ok(cPassText.text)&&ok(rollNoText.text)&&ok(phNoText.text)&&ok(user_type)){
@@ -311,7 +311,7 @@ class _RegistrationActivity extends State<RegistrationActivity>{
             stateText.text,
             phNoText.text,
             user_type,
-            'abcd'
+            userId
         );
         final response = await http.post(
           Uri.parse('https://uptodatebackend.herokuapp.com/user/register'),
@@ -321,7 +321,7 @@ class _RegistrationActivity extends State<RegistrationActivity>{
           body: jsonEncode(userFields.toJson(userFields)),
         );
         if(response.body.isNotEmpty){
-          authenticateToFirebase();
+          // authenticateToFirebase();
           showDialog('Registered Successfully', DialogType.SUCCES);
         }else{
           showDialog('Something Went Wrong', DialogType.ERROR);
