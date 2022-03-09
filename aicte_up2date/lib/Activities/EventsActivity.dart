@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'package:aicte_up2date/Activities/RegistrationActivity.dart';
 import 'package:aicte_up2date/GlobalVariable.dart';
 import 'package:aicte_up2date/Models/EventAPIModel.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // import 'package:add_2_calendar/add_2_calendar.dart';
@@ -25,6 +27,7 @@ class _EventsActivity extends State<EventsActivity>{
     print('cc $iid');
     return list;
   }
+  String eventId = '';
   //
   // @override
   // void initState() {
@@ -53,6 +56,12 @@ class _EventsActivity extends State<EventsActivity>{
       ),
       appBar: AppBar(
         title: const Text('Events'),
+        actions: <Widget>[
+          IconButton(
+              onPressed: (){
+                FirebaseAuth.instance.signOut();},
+              icon: const Icon(Icons.logout))
+        ]
       ),
       body: Center(
         child: FutureBuilder<List<EventAPIModel>>(
@@ -167,6 +176,9 @@ class _EventsActivity extends State<EventsActivity>{
                           const Spacer(),
                           ElevatedButton(
                             onPressed: (){
+                              setState(() {
+                                eventId = list[index].id;
+                              });
                               registerToThisEvent();
                             },
                             child: const Text('Join'),
@@ -189,12 +201,19 @@ class _EventsActivity extends State<EventsActivity>{
     );
   }
   registerToThisEvent() async{
-    // Add2Calendar.addEvent2Cal(buildEvent(
-    //   recurrence: Recurrence(
-    //     frequency: Frequency.weekly,
-    //     endDate: DateTime.now().add(Duration(days: 60)),
-    //   ),
-    // ));
+    var resp = await http.get(Uri.parse('https://uptodatebackend.herokuapp.com/event/geteventbyid?id=$eventId'));
+    EventAPIModel eventAPIModel = EventAPIModel.fromJson(jsonDecode(resp.body));
+    eventAPIModel.registers.add('abcd');
+    final response = await http.post(
+      Uri.parse('https://uptodatebackend.herokuapp.com/event/register'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: <String, String>{
+        'uid':'abcd',
+        'eid':eventId
+      },
+    );
     print('event added');
   }
   // Event buildEvent({Recurrence? recurrence}) {

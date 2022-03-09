@@ -1,5 +1,6 @@
 import 'package:aicte_up2date/Activities/EventsActivity.dart';
 import 'package:aicte_up2date/Activities/ProfileActivity.dart';
+import 'package:aicte_up2date/Activities/StartActivity.dart';
 import 'package:aicte_up2date/Models/EventModel.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class MainApp extends StatelessWidget{
       theme: ThemeData(
         fontFamily: 'Poppins'
       ),
-      home: EventsActivity(),
+      home: LoginActivity(),
     );
   }
 
