@@ -1,7 +1,11 @@
+import 'package:aicte_up2date/Activities/EventsActivity.dart';
+import 'package:aicte_up2date/Activities/RegistrationActivity.dart';
 import 'package:animated_button/animated_button.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:motion_toast/motion_toast.dart';
 
 import '../GlobalVariable.dart';
 
@@ -99,6 +103,16 @@ class _LoginActivity extends State<LoginActivity>{
               alignment: Alignment.center,
               child: const Text('Forgot the password'),
             ),
+            const SizedBox(height: 30),
+            Container(
+              alignment: Alignment.center,
+              child: GestureDetector(
+                child: const Text('Register !'),
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => RegistrationActivity()));
+                },
+              ),
+            ),
           ],
         ),
       )
@@ -188,7 +202,21 @@ class _LoginActivity extends State<LoginActivity>{
     );
   }
   void signIn() async{
-
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: mail_id.text,
+          password: password.text
+      );
+      Navigator.push(context, MaterialPageRoute(builder: (context) => EventsActivity(FirebaseAuth.instance.currentUser!.uid)));
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+        showToast('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
+        showToast('Wrong password provided for that user.');
+      }
+    }
   }
   static BoxDecoration _Neumorphism() {
     return BoxDecoration(
@@ -209,6 +237,9 @@ class _LoginActivity extends State<LoginActivity>{
           )
         ]
     );
+  }
+  void showToast(String text){
+    MotionToast.info(description: Text(text, style: const TextStyle(fontFamily: 'Varela')), title: const Text('Info',),).show(context);
   }
   static TextField _TextField_Decoration(TextEditingController controller, var label){
     return TextField(

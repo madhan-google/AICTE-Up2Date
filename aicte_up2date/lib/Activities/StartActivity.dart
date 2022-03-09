@@ -1,4 +1,5 @@
 import 'package:aicte_up2date/Activities/EventsActivity.dart';
+import 'package:aicte_up2date/Activities/LoginActivity.dart';
 import 'package:aicte_up2date/Activities/RegistrationActivity.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -21,14 +22,17 @@ class _StartActivity extends State<StartActivity>{
         print('User is currently signed out!');
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => RegistrationActivity()),
+          MaterialPageRoute(builder: (context) => LoginActivity()),
         );
+        // Navigator.pop(context);
       } else {
         print('User is signed in!');
+        print(FirebaseAuth.instance.currentUser!.uid);
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => EventsActivity()),
+          MaterialPageRoute(builder: (context) => EventsActivity(FirebaseAuth.instance.currentUser!.uid)),
         );
+        // Navigator.pop(context);
       }
     });
   }

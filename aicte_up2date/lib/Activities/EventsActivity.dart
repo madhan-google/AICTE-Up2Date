@@ -11,11 +11,15 @@ import 'package:aicte_up2date/Models/EventModel.dart';
 import 'package:http/http.dart' as http;
 
 class EventsActivity extends StatefulWidget{
+  String userId;
+  EventsActivity(this.userId);
   @override
-  State<EventsActivity> createState() => _EventsActivity();
+  State<EventsActivity> createState() => _EventsActivity(userId);
 }
 class _EventsActivity extends State<EventsActivity>{
   // late EventAPIModel _eventAPIModel;
+  String userId;
+  _EventsActivity(this.userId);
   List<EventAPIModel> list = [];
   Future<List<EventAPIModel>> getAPI() async{
     var response = await http.get(Uri.parse('https://uptodatebackend.herokuapp.com/event/getevent'));
@@ -59,7 +63,9 @@ class _EventsActivity extends State<EventsActivity>{
         actions: <Widget>[
           IconButton(
               onPressed: (){
-                FirebaseAuth.instance.signOut();},
+                FirebaseAuth.instance.signOut();
+                Navigator.of(context).pop();
+                },
               icon: const Icon(Icons.logout))
         ]
       ),
@@ -125,9 +131,9 @@ class _EventsActivity extends State<EventsActivity>{
                           )
                         ],
                       ),
-                      SizedBox(height: 10,),
+                      const SizedBox(height: 10,),
                       Container(
-                        margin: EdgeInsets.only(left: 10),
+                        margin: const EdgeInsets.only(left: 10),
                         child: Text(
                             list[index].title,
                             style: const TextStyle(
@@ -138,9 +144,9 @@ class _EventsActivity extends State<EventsActivity>{
                             )
                         ),
                       ),
-                      SizedBox(height: 5,),
+                      const SizedBox(height: 5,),
                       Container(
-                        margin: EdgeInsets.only(left: 10),
+                        margin: const EdgeInsets.only(left: 10),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -148,10 +154,10 @@ class _EventsActivity extends State<EventsActivity>{
                             const Icon(
                               Icons.location_pin,
                             ),
-                            SizedBox(width: 10,),
+                            const SizedBox(width: 10,),
                             Text(
                               list[index].location,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 18
                               ),
                             )
@@ -161,7 +167,7 @@ class _EventsActivity extends State<EventsActivity>{
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          SizedBox(width: 10,),
+                          const SizedBox(width: 10,),
                           // CircleAvatar(),
                           Container(
                             height: 30,
@@ -183,17 +189,17 @@ class _EventsActivity extends State<EventsActivity>{
                             },
                             child: const Text('Join'),
                           ),
-                          SizedBox(width: 10,)
+                          const SizedBox(width: 10,)
                         ],
                       ),
-                      SizedBox(height: 10,)
+                      const SizedBox(height: 10,)
                     ],
                   );
                 },
                 // itemCount: list.length,
               );
             }else{
-              return Center(child: Text('Loading..'),);
+              return const Center(child: Text('Loading..'),);
             }
           },
         )
@@ -201,19 +207,19 @@ class _EventsActivity extends State<EventsActivity>{
     );
   }
   registerToThisEvent() async{
-    var resp = await http.get(Uri.parse('https://uptodatebackend.herokuapp.com/event/geteventbyid?id=$eventId'));
-    EventAPIModel eventAPIModel = EventAPIModel.fromJson(jsonDecode(resp.body));
-    eventAPIModel.registers.add('abcd');
-    final response = await http.post(
+    print(userId);
+    print(eventId);
+    // var resp = await http.get(Uri.parse('https://uptodatebackend.herokuapp.com/event/geteventbyid?id=$eventId'));
+    // EventAPIModel eventAPIModel = EventAPIModel.fromJson(jsonDecode(resp.body));
+    // eventAPIModel.registers.add(userId);
+    var response = await http.post(
       Uri.parse('https://uptodatebackend.herokuapp.com/event/register'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
       body: <String, String>{
-        'uid':'abcd',
+        'uid':userId,
         'eid':eventId
       },
     );
+    print(response.body);
     print('event added');
   }
   // Event buildEvent({Recurrence? recurrence}) {

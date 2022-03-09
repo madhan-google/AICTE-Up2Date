@@ -19,7 +19,7 @@ class MainApp extends StatelessWidget{
       theme: ThemeData(
         fontFamily: 'Poppins'
       ),
-      home: LoginActivity(),
+      home: StartActivity(),
     );
   }
 

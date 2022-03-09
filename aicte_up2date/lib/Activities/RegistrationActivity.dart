@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:aicte_up2date/Activities/EventsActivity.dart';
 import 'package:aicte_up2date/Models/UserFields.dart';
 import 'package:aicte_up2date/Widgets/BoxShadowWidget.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
@@ -323,6 +324,7 @@ class _RegistrationActivity extends State<RegistrationActivity>{
         if(response.body.isNotEmpty){
           // authenticateToFirebase();
           showDialog('Registered Successfully', DialogType.SUCCES);
+          Navigator.push(context, MaterialPageRoute(builder: (context) => EventsActivity(FirebaseAuth.instance.currentUser!.uid)));
         }else{
           showDialog('Something Went Wrong', DialogType.ERROR);
         }
